@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { z } from "zod";
 export const UserSignupSchema = z.object({
   username: z
@@ -15,3 +16,11 @@ export const UserSigninSchema = z.object({
     .string()
     .min(8, { message: "Password should have min. 8 charactes" }),
 });
+
+const objectIdSchema = z.string().refine(val => mongoose.Types.ObjectId.isValid(val), {
+  message: "Invalid user id"
+})
+export const ContentValidationSchema = z.object ({
+  type: z.string(),
+  link: z.string(),
+})

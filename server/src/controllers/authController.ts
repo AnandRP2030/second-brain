@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { UserModel } from "../models/userModel";
 import { z } from "zod";
 import { hashedPassword, verifyPasswords } from "../utils/handlePassword";
+import { createToken } from "../utils/generateToken";
 
 const UserSchema = z.object({
   username: z
@@ -13,6 +14,9 @@ const UserSchema = z.object({
     .min(8, { message: "Password length should be 8 characters" }),
 });
 
+type UserId = {
+  userId: string
+}
 export const signup = async (
   req: Request,
   res: Response,
@@ -52,7 +56,9 @@ export const signin = async (
       return;
     }
 
-    res.status(200).json({ message: "Loggin success" });
+    const token = createToken({userId: user._id.toString()})
+
+    res.status(200).json({ message: "Loggin success", token });
   } catch (error) {
     next(error);
   }
