@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { UserModel } from "../models/userModel";
 import { z } from "zod";
+import { hashedPassword, verifyPasswords } from "../utils/handlePassword";
 
 const UserSchema = z.object({
   username: z
@@ -20,11 +21,11 @@ export const signup = async (
   try {
    
     const { username, email, password } = req.body;
-
+    const hashPassword = await hashedPassword(password)
     const user = await new UserModel({
       username,
       email,
-      password,
+      password: hashPassword,
     });
     await user.save();
     res.status(201).json({ message: "User created successfully" });
@@ -40,16 +41,13 @@ export const signin = async (
 ): Promise<void> => {
   try {
     const { email, password } = req.body;
-    if (!email || !password) {
-      res.status(404).json({ message: "Email id or password is incorrect" });
-      return;
-    }
+    
     const user = await UserModel.findOne({ email });
     if (!user) {
       res.status(404).json({ message: "Email id or password is incorrect" });
       return;
     }
-    if (user.password !== password) {
+    if (!verifyPasswords(password, user.password)) {
       res.status(404).json({ message: "Email id or password is incorrect" });
       return;
     }
