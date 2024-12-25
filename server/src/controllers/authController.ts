@@ -1,15 +1,26 @@
 import { Request, Response, NextFunction } from "express";
 import { UserModel } from "../models/userModel";
+import { z } from "zod";
+
+const UserSchema = z.object({
+  username: z
+    .string()
+    .min(3, { message: "Username length minimum 3 characters" }),
+  email: z.string().email(),
+  password: z
+    .string()
+    .min(8, { message: "Password length should be 8 characters" }),
+});
+
 export const signup = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
+   
     const { username, email, password } = req.body;
-    if (!username || !email || !password) {
-      res.status(401).json({ message: "Email and password is required" });
-    }
+
     const user = await new UserModel({
       username,
       email,
