@@ -1,4 +1,4 @@
-# Second Brain Project
+# Second Brain Project (work in progress)
 
 ## Overview
 
