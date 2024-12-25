@@ -1,4 +1,3 @@
-```markdown
 # Second Brain Project
 
 ## Overview
@@ -94,6 +93,3 @@ All request data is validated using Zod to ensure data integrity and prevent inv
 ## Security
 
 User authentication is handled using JSON Web Tokens (JWT). Ensure you keep your JWT secret safe and secure.
-
-```
-
