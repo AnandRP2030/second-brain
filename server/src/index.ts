@@ -33,8 +33,8 @@ const onlyNum = z.number()
 
 
 
-app.use("/second-brain/api/auth/", authRoutes);
-app.use("/second-brain/api/content/", contentRoutes);
+app.use("/second-brain/api/auth", authRoutes);
+app.use("/second-brain/api/content", contentRoutes);
 
 //error handling middleware
 app.use(erroHandler);
