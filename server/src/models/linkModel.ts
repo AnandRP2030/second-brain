@@ -5,11 +5,12 @@ const linkSchema = new Schema(
       type: mongoose.Types.ObjectId,
       required: true,
       unique: true,
-      ref: "User"
+      ref: "User",
     },
     hash: {
-        type: String
-    }
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

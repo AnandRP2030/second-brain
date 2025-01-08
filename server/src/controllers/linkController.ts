@@ -12,21 +12,29 @@ export const createOrDeleteLink = async (
 ) => {
   try {
     const share = req.body.share;
-    let message;
     if (share) {
-      await LinkModel.create({
+      const existingLink = await LinkModel.findOne({
+        userId: req.userId?.toString(),
+      });
+      // todo=> existing link is not working do check
+      if (existingLink) {
+        res
+          .status(200)
+          .json({ message: "link already existed", data: existingLink });
+        return;
+      }
+      const newLink = new LinkModel({
         userId: req.userId,
         hash: generateRandomString(20),
       });
-      message = "Link generated";
-    } else {
-      await LinkModel.deleteOne({
-        userId: req.userId,
-      });
-      message = "Link deleted";
+      res.status(200).json({ message: "Link generated", data: newLink });
+      return;
     }
 
-    res.status(200).json({ message });
+    await LinkModel.deleteOne({
+      userId: req.userId,
+    });
+    res.status(200).json({ message: "Link  deleted" });
     return;
   } catch (error) {
     next(error);
@@ -45,7 +53,9 @@ export const shareLink = async (
       const error = new Error("Link not found");
       throw error;
     }
-    const contents = await ContentModel.find({ userId: link.userId.toString() });
+    const contents = await ContentModel.find({
+      userId: link.userId.toString(),
+    });
     const user = await UserModel.findById(link.userId);
     if (!user) {
       const error = new Error("User not found");
