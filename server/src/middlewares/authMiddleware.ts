@@ -12,7 +12,6 @@ export const verifyUser = async (
 ) => {
   try {
     const token = req.header("Authorization")?.replace("Bearer ", "");
-    console.log('tok', token)
     if (!token) {
       res.status(401).json({ message: "No token. Authentication failed" });
       return;
