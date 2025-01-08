@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Button } from "./components/ui/Button";
 import { Camera, PlusIcon } from "lucide-react";
+import { Card } from "./components/ui/Card";
 
 function App() {
-  const [count, setCount] = useState(0);
 
   const btnCllicked = () => {
     alert("clicked");
@@ -12,6 +12,7 @@ function App() {
     <>
       <h1>test </h1>
       <h1 className="text-3xl font-bold underline">Hello world!</h1>
+      <Card />
       <Button
         variant="primary"
         size="sm"
