@@ -7,6 +7,7 @@ import { erroHandler } from "./middlewares/errorMiddleware";
 import authRoutes from "./routes/authRoutes";
 import { z } from "zod";
 import contentRoutes from "./routes/contentRoutes";
+import linkRoutes from "./routes/linkRoutes";
 
 const PORT = process.env.PORT || 8000;
 const app = express();
@@ -35,6 +36,7 @@ const onlyNum = z.number()
 
 app.use("/second-brain/api/auth", authRoutes);
 app.use("/second-brain/api/content", contentRoutes);
+app.use("/second-brain/api/link-share", linkRoutes);
 
 //error handling middleware
 app.use(erroHandler);
