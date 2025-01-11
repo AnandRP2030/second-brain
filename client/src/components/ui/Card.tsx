@@ -10,7 +10,7 @@ interface CardProps {
 export const Card = (props: CardProps) => {
   const { title, link, type } = props;
   return (
-    <div className=" max-h-100 min-h-72 min-w-60 shadow-md rounded px-3 py-3">
+    <div className="bg-white max-h-100 min-h-72 min-w-60 shadow-md rounded px-3 py-3">
       {/* header section  */}
       <div className="flex justify-between">
         <div className="flex space-x-2">

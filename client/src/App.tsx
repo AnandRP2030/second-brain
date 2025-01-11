@@ -13,7 +13,7 @@ function App() {
       <div className="flex-shrink-0">
         <Sidebar />
       </div>
-      <div className="ml-[256px] flex flex-grow flex-col overflow-hidden">
+      <div className="ms-56 px-5 flex flex-grow flex-col overflow-hidden bg-purple-100 ">
         {/* topbar  */}
         <div className="flex justify-end  ">
           <Button

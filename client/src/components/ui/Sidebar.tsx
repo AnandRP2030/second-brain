@@ -11,7 +11,7 @@ import { SidebarItem } from "./SidebarItem";
 
 export const Sidebar = () => {
   return (
-    <div className="w-68 h-screen bg-purple-100 p-5 fixed ">
+    <div className="w-78 h-screen bg-white p-5 fixed shadow-md">
       <div className="flex space-x-3 w-full mx-auto">
         <span className="mt-1">
           <BrainIcon />
