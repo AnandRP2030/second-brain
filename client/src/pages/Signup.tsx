@@ -1,7 +1,32 @@
+import { useState } from "react";
+import { Button } from "../components/ui/Button";
+import { Input } from "../components/ui/Input";
+
 export const Signup = () => {
-    return (
-        <div>
-            <h1> signup</h1>
+  const [isLoading, setIsLoading] = useState(false);
+  const Signup = () => {
+    console.log("test");
+  };
+  return (
+    <div className="h-screen bg-gray-200 w-screen  flex justify-center items-center ">
+      <div className="px-10 py-5 bg-blue-400 shadow border-red-100 rounded-md">
+        <h1 className="text-center font-medium text-lg"> Sign Up</h1>
+        <div className="flex flex-col space-y-4">
+          <Input size="lg" placeholder="Enter your username" type="text" />
+          <Input size="lg" placeholder="Enter your email" type="email" />
+          <Input size="lg" placeholder="Enter your password" type="password" />
+
+          <div className="flex justify-center">
+            <Button
+              loading={isLoading}
+              size="md"
+              variant="dark"
+              text="Sign Up"
+              onClick={Signup}
+            />
+          </div>
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
