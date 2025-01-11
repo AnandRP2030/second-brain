@@ -8,7 +8,7 @@ interface ButtonProps {
   text: string;
   startIcon?: ReactElement;
   endIcon?: ReactElement;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const variantStyles = {
@@ -23,7 +23,7 @@ const sizeStyles = {
 };
 
 const defaultStyles =
-  "rounded-lg p-2 m-1 flex items-center space-x-2 justify-center";
+  "rounded-lg p-2 m-1 flex items-center space-x-2 justify-center hover:opacity-80  transition duration-300 ease-in-out";
 
 export const Button = (props: ButtonProps) => {
   const { variant, size, text, startIcon, endIcon, onClick } = props;
