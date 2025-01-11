@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { userSignup } from "../apis/authService";
 import { SignupData } from "../types/auth";
+import { toast } from "react-hot-toast";
 
 export const Signup = () => {
   const navigate = useNavigate();
@@ -16,20 +17,21 @@ export const Signup = () => {
 
   const { mutate } = useMutation({
     mutationFn: userSignup,
-    onSuccess: (data) => {
-      console.log("Login successful", data);
+    onSuccess: () => {
+      toast.success("Signup success");
+      navigate("/signin");
     },
     onError: (error: any) => {
-      console.log("Login failed", error.response?.data || error?.message);
+      const errorMsg = error?.response?.data?.message || "Signup failed";
+      toast.error(errorMsg);
+      console.error("Signup failed: ", error.response?.data || error?.message);
     },
-
   });
 
   const navigateToLogin = () => {
     navigate("/signin");
   };
   const onSubmit: SubmitHandler<SignupData> = (data) => {
-    console.log("data", data);
     const { username, email, password } = data;
     if (!username || !email || !password) {
       return;
