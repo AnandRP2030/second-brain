@@ -38,7 +38,6 @@ export const Input = (props: InputProps) => {
     validation = {},
   } = props;
 
-  console.log("reg", register);
   const [inputType, setInputType] = useState(type);
 
   const sizes = {

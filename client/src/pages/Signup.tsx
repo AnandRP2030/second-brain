@@ -1,33 +1,43 @@
-import { useState } from "react";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-type Inputs = {
-  username: string;
-  email: string;
-  password: string;
-};
+import { useMutation } from "@tanstack/react-query";
+import { userSignup } from "../apis/authService";
+import { SignupData } from "../types/auth";
 
 export const Signup = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<SignupData>();
+
+  const { mutate } = useMutation({
+    mutationFn: userSignup,
+    onSuccess: (data) => {
+      console.log("Login successful", data);
+    },
+    onError: (error: any) => {
+      console.log("Login failed", error.response?.data || error?.message);
+    },
+
+  });
 
   const navigateToLogin = () => {
-    navigate('/signin')
-  }
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    navigate("/signin");
+  };
+  const onSubmit: SubmitHandler<SignupData> = (data) => {
     console.log("data", data);
+    const { username, email, password } = data;
+    if (!username || !email || !password) {
+      return;
+    }
+
+    mutate({ username, email, password });
   };
-  const Signup = () => {
-    console.log("test");
-  };
+
   return (
     <div className="h-screen bg-gray-200 w-screen  flex justify-center items-center ">
       <div className="px-10 py-5 bg-blue-400 shadow border-red-100 rounded-md">
@@ -75,7 +85,7 @@ export const Signup = () => {
                 },
               }}
             />
-            {errors?.username && (
+            {errors?.email && (
               <p className="text-red-500">{errors?.email?.message} </p>
             )}
           </div>
@@ -104,15 +114,18 @@ export const Signup = () => {
               <p className="text-red-500">{errors?.password?.message} </p>
             )}
           </div>
-            <p>Already have an account? <span className="cursor-pointer font-medium" onClick={navigateToLogin}> Sign In</span></p>
+          <p>
+            Already have an account?{" "}
+            <span
+              className="cursor-pointer font-medium"
+              onClick={navigateToLogin}
+            >
+              {" "}
+              Sign In
+            </span>
+          </p>
           <div className="flex justify-center">
-            <Button
-              loading={isLoading}
-              size="md"
-              variant="dark"
-              text="Sign Up"
-              onClick={Signup}
-            />
+            <Button loading={false} size="md" variant="dark" text="Sign Up" />
           </div>
         </form>
       </div>
