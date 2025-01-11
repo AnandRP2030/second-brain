@@ -4,17 +4,17 @@ const userSchema = new Schema(
   {
     username: {
       type: String,
-      requied: true,
-      unique: true,
+      requied: [true, "Username is required"],
+      unique: [true, "Username already taken!"],
     },
     email: {
       type: String,
-      required: true,
-      unique: true,
+      requied: [true, "Email is required"],
+      unique: [true, "Email already taken!"],
     },
     password: {
       type: String,
-      required: true,
+      required: [true, "Password is required"],
     },
   },
   {
@@ -22,4 +22,3 @@ const userSchema = new Schema(
   }
 );
 export const UserModel = model("User", userSchema);
-
