@@ -23,8 +23,9 @@ export const CreateContentModal = (props: CreateContentModalProps) => {
                 </div>
               </div>
               <div>
-                <Input size="lg" placeholder="Type" />
-                <Input size="lg" placeholder="Link" />
+                {/* todo  unhide this */}
+                {/* <Input size="lg" placeholder="Type" />
+                <Input size="lg" placeholder="Link" /> */}
               </div>
               <div className="flex justify-end mt-5">
                 <Button
