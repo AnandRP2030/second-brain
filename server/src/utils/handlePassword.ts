@@ -10,6 +10,6 @@ export const verifyPasswords = async (
   hashedPassword: string,
   password: string
 ): Promise<boolean> => {
-  const isSame = await bcrypt.compare(password, hashedPassword);
+  const isSame = await bcrypt.compare(hashedPassword, password);
   return isSame;
 };

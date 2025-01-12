@@ -7,14 +7,14 @@ export const UserSignupSchema = z.object({
   email: z.string().email(),
   password: z
     .string()
-    .min(8, { message: "Password should have min. 8 characters" }),
+    .min(6, { message: "Password should have min. 6 characters" }),
 });
 
 export const UserSigninSchema = z.object({
   email: z.string().email(),
   password: z
     .string()
-    .min(8, { message: "Password should have min. 8 charactes" }),
+    .min(6, { message: "Password should have min. 6 charactes" }),
 });
 
 const objectIdSchema = z.string().refine(val => mongoose.Types.ObjectId.isValid(val), {

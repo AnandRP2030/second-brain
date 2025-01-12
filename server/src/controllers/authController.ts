@@ -15,17 +15,16 @@ const UserSchema = z.object({
 });
 
 type UserId = {
-  userId: string
-}
+  userId: string;
+};
 export const signup = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-   
     const { username, email, password } = req.body;
-    const hashPassword = await hashedPassword(password)
+    const hashPassword = await hashedPassword(password);
     const user = await new UserModel({
       username,
       email,
@@ -45,19 +44,25 @@ export const signin = async (
 ): Promise<void> => {
   try {
     const { email, password } = req.body;
-    
+
     const user = await UserModel.findOne({ email });
     if (!user) {
       res.status(404).json({ message: "Email id or password is incorrect" });
       return;
     }
-    if (!verifyPasswords(password, user.password)) {
+    const isPasswordSame = await verifyPasswords(password, user.password);
+    if (!isPasswordSame) {
       res.status(404).json({ message: "Email id or password is incorrect" });
       return;
     }
 
-    const token = createToken({userId: user._id.toString()})
-
+    const token = createToken({ userId: user._id.toString() });
+    res.cookie("second-brain-token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
     res.status(200).json({ message: "Loggin success", token });
   } catch (error) {
     next(error);

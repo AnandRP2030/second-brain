@@ -8,18 +8,26 @@ import authRoutes from "./routes/authRoutes";
 import { z } from "zod";
 import contentRoutes from "./routes/contentRoutes";
 import linkRoutes from "./routes/linkRoutes";
-import cors from 'cors';
+import cors from "cors";
 
 const PORT = process.env.PORT || 8000;
 const app = express();
-app.use(cors());
+
+const corsOptions = {
+  origin: [
+    process.env.FRONT_END_URL_DEVELOPMENT || 'http://localhost:5173',
+  ],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 app.get("/", (req, res) => {
   res.send("second brain working.");
 });
 
 const onlyString = z.string();
-const onlyNum = z.number()
+const onlyNum = z.number();
 
 app.use("/second-brain/api/auth", authRoutes);
 app.use("/second-brain/api/content", contentRoutes);
