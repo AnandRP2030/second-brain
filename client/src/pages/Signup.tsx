@@ -42,7 +42,7 @@ export const Signup = () => {
 
   return (
     <div className="h-screen bg-gray-200 w-screen  flex justify-center items-center ">
-      <div className="px-10 py-5 bg-blue-400 shadow border-red-100 rounded-md">
+      <div className="px-10 py-5 bg-white shadow border-red-100 rounded-md">
         <h1 className="text-center font-medium text-lg"> Sign Up</h1>
         <form
           className="flex flex-col space-y-4"
@@ -116,7 +116,7 @@ export const Signup = () => {
               <p className="text-red-500">{errors?.password?.message} </p>
             )}
           </div>
-          <p>
+          <p className="text-sm">
             Already have an account?{" "}
             <span
               className="cursor-pointer font-medium"

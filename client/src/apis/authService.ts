@@ -6,7 +6,7 @@ export const userSignup = async (data: SignupData): Promise<SignupResponse> => {
   return res.data;
 };
 
-export const userLogin = async (data: SigninData) => {
-  const res = await axiosInstance.post("/sigin", data);
+export const userSignin = async (data: SigninData) => {
+  const res = await axiosInstance.post("/auth/signin", data);
   return res.data;
 };

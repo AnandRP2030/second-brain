@@ -3,6 +3,9 @@ import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { userSignin } from "../apis/authService";
+import { toast } from "react-hot-toast";
 type InputTypes = {
   email: string;
   password: string;
@@ -12,20 +15,37 @@ export const Signin = () => {
   const navigate = useNavigate();
   const {
     register,
-    watch,
     handleSubmit,
     formState: { errors },
   } = useForm<InputTypes>();
-  const Signin: SubmitHandler<InputTypes> = () => {
-    console.log("test");
-  };
 
+  const { mutate } = useMutation({
+    mutationFn: userSignin,
+    onSuccess: (data) => {
+      toast.success("Sign in successful.");
+      console.log(data.token);
+      localStorage.setItem("second-brain-token", data.token)
+      navigate("/");
+    },
+    onError: (error: any) => {
+      const errorMsg = error?.response?.data?.message || "Signin failed";
+      toast.error(errorMsg);
+      console.error("Signin failed: ", error.response?.data || error?.message);
+    },
+  });
+  const Signin: SubmitHandler<InputTypes> = (data) => {
+    const { email, password } = data;
+    if (!email || !password) {
+      return;
+    }
+    mutate({ email, password });
+  };
   const navigateToSignup = () => {
     navigate("/signup");
   };
   return (
     <div className="h-screen bg-gray-200 w-screen  flex justify-center items-center ">
-      <div className="px-10 py-5 bg-blue-400 shadow border-red-100 rounded-md">
+      <div className="px-10 py-5 bg-white shadow border-red-100 rounded-md">
         <h1 className="text-center font-medium text-lg"> Sign In</h1>
         <form
           className="flex flex-col space-y-4"
@@ -46,7 +66,9 @@ export const Signin = () => {
                 },
               }}
             />
-            <p className="text-red-500">{errors?.email?.message}</p>
+            {errors?.email && (
+              <p className="text-red-500 ">{errors?.email?.message}</p>
+            )}
           </div>
           <div>
             <Input
@@ -67,12 +89,17 @@ export const Signin = () => {
                 },
               }}
             />
-            <p className="text-red-500">{errors?.password?.message}</p>
+            {errors?.password && (
+              <p className="text-red-500">{errors?.password?.message}</p>
+            )}
           </div>
 
-          <p>
+          <p className="text-sm">
             Create new account{" "}
-            <span onClick={navigateToSignup} className="font-medium cursor-pointer">
+            <span
+              onClick={navigateToSignup}
+              className="font-medium cursor-pointer"
+            >
               Sign Up
             </span>
           </p>

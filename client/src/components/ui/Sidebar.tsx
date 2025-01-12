@@ -8,8 +8,12 @@ import {
   LogoutIcon,
 } from "../icon";
 import { SidebarItem } from "./SidebarItem";
-
+import { useNavigate } from "react-router-dom";
 export const Sidebar = () => {
+  const navigate = useNavigate();
+  const logout = () => {
+    navigate("/signin");
+  };
   return (
     <div className="w-78 h-screen bg-white p-5 fixed shadow-md">
       <div className="flex space-x-3 w-full mx-auto">
@@ -25,7 +29,7 @@ export const Sidebar = () => {
         <SidebarItem icon={<DocumentIcon />} title="Documents" />
         <SidebarItem icon={<LinkIcon />} title="Links" />
         <SidebarItem icon={<HashIcon />} title="Tags" />
-        <SidebarItem icon={<LogoutIcon />} title="Logout" />
+        <SidebarItem onClick={logout} icon={<LogoutIcon />} title="Logout" />
       </div>
     </div>
   );
