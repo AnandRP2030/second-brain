@@ -1,23 +1,24 @@
-import { isValidElement, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { CloseIcon } from "../icon/CrossIcon";
 import { Button } from "./Button";
 import { Input } from "./Input";
 import { useForm } from "react-hook-form";
 import { ContentData, ContentType } from "../../types/content";
 import { CreateContentModalProps } from "../../types/modal";
-import { UserTokenId } from "../../config/localStorageId";
-
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { postContent } from "../../apis/contentService";
+import toast from "react-hot-toast";
 
 export const CreateContentModal = (props: CreateContentModalProps) => {
-  const [userId, setUserId] = useState("")
   const { isOpen, onClose, modalTitle } = props;
   const [type, setType] = useState(ContentType.Youtube);
-  
+  const queryClient = useQueryClient();
   const {
     register,
     handleSubmit,
     trigger,
     watch,
+    reset,
     formState: { errors },
   } = useForm<ContentData>();
 
@@ -45,14 +46,31 @@ export const CreateContentModal = (props: CreateContentModalProps) => {
     trigger(["link"]);
   }, [trigger, type, watch("link")]);
 
-  useEffect(() => {
-    const id = localStorage.getItem(UserTokenId) || null;
-    if (!id) {
 
-    }
-  }, [])
+  const createNewContent = useMutation({
+    mutationFn: postContent,
+  });
   const addContent = async (data: ContentData) => {
-    
+    console.log(data, type)
+    const { link, title } = data;
+    if (!type || !link || !title) {
+      return;
+    }
+    const serializedData = { ...data,  type };
+    createNewContent.mutate(serializedData, {
+      onError: (error: any) => {
+        const errorMsg =
+          error?.response?.data?.messasge || "New content adding failed";
+        toast.error(errorMsg);
+        console.error("Content adding failed: ", error?.response?.data);
+      },
+      onSuccess: () => {
+        // queryClient.invalidateQueries(['content'])
+        toast.success("Content added");
+        reset()
+        onClose();
+      },
+    });
   };
 
   return (

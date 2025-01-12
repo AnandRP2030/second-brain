@@ -24,7 +24,7 @@ export const Signup = () => {
     onError: (error: any) => {
       const errorMsg = error?.response?.data?.message || "Signup failed";
       toast.error(errorMsg);
-      console.error("Signup failed: ", error.response?.data || error?.message);
+      console.error("Signup failed: ", error.response?.data);
     },
   });
 
