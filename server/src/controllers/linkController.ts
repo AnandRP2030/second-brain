@@ -5,37 +5,24 @@ import { generateRandomString } from "../utils/genRandomNum";
 import { ContentModel } from "../models/contentModel";
 import { UserModel } from "../models/userModel";
 
-export const createOrDeleteLink = async (
+export const createSharableLink = async (
   req: CustomRequest,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const share = req.body.share;
-    if (share) {
-      const existingLink = await LinkModel.findOne({
-        userId: req.userId?.toString(),
-      });
-      // todo=> existing link is not working do check
-      if (existingLink) {
-        res
-          .status(200)
-          .json({ message: "link already existed", data: existingLink });
-        return;
-      }
-      const newLink = new LinkModel({
-        userId: req.userId,
-        hash: generateRandomString(20),
-      });
-      res.status(200).json({ message: "Link generated", data: newLink });
+    if (!share) {
+      res.status(400).json({ message: "share is false" });
       return;
     }
 
-    await LinkModel.deleteOne({
+    const newLink = new LinkModel({
       userId: req.userId,
+      hash: generateRandomString(20),
     });
-    res.status(200).json({ message: "Link  deleted" });
-    return;
+    await newLink.save();
+    res.status(200).json({ message: "Link generated", data: newLink });
   } catch (error) {
     next(error);
   }

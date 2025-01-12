@@ -7,3 +7,5 @@ export const axiosInstance = axios.create({
   withCredentials: true,
 });
 
+export const BACK_END_BASE_URL = `http://localhost:8000/second-brain/api`
+export const FRONT_END_BASE_URL = `http://localhost:5173`

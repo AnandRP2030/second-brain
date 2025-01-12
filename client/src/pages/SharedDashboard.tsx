@@ -6,11 +6,11 @@ import { Sidebar } from "../components/ui/Sidebar";
 import { CreateContentModal } from "../components/ui/CreateContentModal";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getUserContents } from "../apis/contentService";
+import { getSharedContents } from "../apis/contentService";
 import { ContentTypeFromServer } from "../types/content";
 import { ShareContentModal } from "../components/ui/ShareContentModal";
-
-export const Dashboard = () => {
+import { useParams } from "react-router-dom";
+export const SharedDashboard = () => {
   return (
     <>
       <div className="flex ">
@@ -26,7 +26,7 @@ export const Dashboard = () => {
 export const MainSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-
+  const { id } = useParams();
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -43,13 +43,15 @@ export const MainSection = () => {
   };
 
   const {
-    data: contents,
+    data,
     error,
     isLoading,
-  } = useQuery({
-    queryKey: ["contents"],
-    queryFn: getUserContents,
-  });
+  }: { data?: ContentTypeFromServer[]; error?: unknown; isLoading: boolean } =
+    useQuery({
+      queryKey: ["shared-contents", id],
+      queryFn: () => getSharedContents(id as string),
+      enabled: !!id,
+    });
 
   if (isLoading) {
     return (
@@ -64,10 +66,8 @@ export const MainSection = () => {
   if (error) {
     return (
       <div className="ms-56 px-5 flex flex-grow flex-col overflow-auto bg-purple-100 ">
-        <div className="flex items-center justify-center h-screen">
-          <h1 className="text-center">
-            An error occurred while fetching data.
-          </h1>
+         <div className="flex items-center justify-center h-screen">
+        <h1 className="text-center">An error occurred while fetching data.</h1>
         </div>
       </div>
     );
@@ -105,9 +105,15 @@ export const MainSection = () => {
         </div>
         {/* card component  */}
         <div className="flex flex-wrap gap-5  flex-grow overflow-y-scroll mt-20">
-          {contents ? (
-            contents.map((content: ContentTypeFromServer) => {
-              return <Card key={content._id} content={content} />;
+          {data && Array.isArray(data) ? (
+            data?.map((content: ContentTypeFromServer) => {
+              return (
+                <Card
+                  key={content._id}
+                  content={content}
+                  isContentOwner={false}
+                />
+              );
             })
           ) : (
             <div>

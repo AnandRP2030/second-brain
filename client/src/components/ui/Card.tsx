@@ -7,6 +7,7 @@ import { DeleteContentModal } from "./DeleteContentModal";
 
 interface CardProps {
   content: ContentTypeFromServer;
+  isContentOwner?: boolean;
 }
 export const Card = (props: CardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,7 +18,8 @@ export const Card = (props: CardProps) => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const { _id, title, link, type, createdAt, userId } = props.content;
+  const { isContentOwner = true } = props;
+  const { _id, title, link, type, createdAt, userId = true } = props.content;
 
   return (
     <>
@@ -28,20 +30,22 @@ export const Card = (props: CardProps) => {
         modalTitle="Delete Content"
       />
       <div className="bg-white w-80 max-h-100 min-h-72 max-h-96 overflow-auto min-w-60 shadow-md rounded px-3 py-3">
-        {/* header section  */}
-        <div className="flex justify-between">
-          <div className="flex space-x-2">
-            <NoteIcon />
-            <p className="font-medium">{title}</p>
+        {isContentOwner && (
+          <div className="flex justify-between">
+            <div className="flex space-x-2">
+              <NoteIcon />
+              <p className="font-medium">{title}</p>
+            </div>
+
+            <div className="flex space-x-2">
+              <ShareIcon />
+              <span onClick={openModal} className="cursor-pointer">
+                <DeleteIcon />
+              </span>
+            </div>
           </div>
-          <div className="flex space-x-2">
-            <ShareIcon />
-            <span onClick={openModal} className="cursor-pointer">
-              <DeleteIcon />
-            </span>
-          </div>
-        </div>
-        {/* content  */}
+        )}
+
 
         <div className="pt-4">
           {type === "youtube" && (
@@ -67,7 +71,7 @@ export const Card = (props: CardProps) => {
         <div className="flex space-x-2 text-xs mt-3">
           <span className="bg-purple-200 rounded-lg px-2 py-1">#{type}</span>
           <span className="bg-purple-200 rounded-lg px-2 py-1">
-            #{userId.username}
+            #{typeof userId === 'object' ? userId.username : 'unknown'}
           </span>
         </div>
 

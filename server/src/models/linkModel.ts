@@ -4,7 +4,6 @@ const linkSchema = new Schema(
     userId: {
       type: mongoose.Types.ObjectId,
       required: true,
-      unique: true,
       ref: "User",
     },
     hash: {
