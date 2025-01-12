@@ -1,4 +1,5 @@
 import { UserTokenId } from "../../config/localStorageId";
+import { Pages, SidebarProps } from "../../types/sidebar";
 import {
   BrainIcon,
   TweetIcon,
@@ -8,12 +9,14 @@ import {
   HashIcon,
   LogoutIcon,
 } from "../icon";
+import { ChatIcon } from "../icon/ChatIcon";
 import { SidebarItem } from "./SidebarItem";
 import { useNavigate } from "react-router-dom";
-export const Sidebar = () => {
+
+export const Sidebar = ({ changeActivePage, activePage }: SidebarProps) => {
   const navigate = useNavigate();
   const logout = () => {
-    localStorage.removeItem(UserTokenId)
+    localStorage.removeItem(UserTokenId);
     navigate("/signin");
   };
   return (
@@ -26,12 +29,48 @@ export const Sidebar = () => {
       </div>
       {/* sidebar items  */}
       <div className=" p-3 ">
-        <SidebarItem icon={<TweetIcon />} title="Tweets" />
-        <SidebarItem icon={<VideoIcon />} title="Videos" />
-        <SidebarItem icon={<DocumentIcon />} title="Documents" />
-        <SidebarItem icon={<LinkIcon />} title="Links" />
-        <SidebarItem icon={<HashIcon />} title="Tags" />
-        <SidebarItem onClick={logout} icon={<LogoutIcon />} title="Logout" />
+        <SidebarItem
+          active={Pages.allContents === activePage}
+          onClick={() => changeActivePage(Pages.allContents)}
+          icon={<DocumentIcon />}
+          title="All Contents"
+        />
+        <SidebarItem
+          active={Pages.twitter === activePage}
+          onClick={() => changeActivePage(Pages.twitter)}
+          icon={<TweetIcon />}
+          title="Twitter"
+        />
+        <SidebarItem
+          active={Pages.youtube === activePage}
+          onClick={() => changeActivePage(Pages.youtube)}
+          icon={<VideoIcon />}
+          title="Youtube"
+        />
+        <SidebarItem
+          active={Pages.chat === activePage}
+          onClick={() => changeActivePage(Pages.chat)}
+          icon={<ChatIcon />}
+          title="Chat"
+        />
+        <SidebarItem
+          active={Pages.links === activePage}
+          onClick={() => changeActivePage(Pages.links)}
+          icon={<LinkIcon />}
+          title="Links"
+        />
+        <SidebarItem
+          active={Pages.tags === activePage}
+          onClick={() => changeActivePage(Pages.tags)}
+          icon={<HashIcon />}
+          title="Tags"
+        />
+        <SidebarItem
+          active={false}
+          onClick={logout}
+          icon={<LogoutIcon />}
+          title="Logout"
+        />
       </div>
     </div>
   );
