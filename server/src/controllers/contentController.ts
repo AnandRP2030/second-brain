@@ -42,20 +42,20 @@ export const getAllContent = async (
   }
 };
 
-export const getContentsByUserId = async (
+export const getContentsByUser = async (
   req: CustomRequest,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { userId } = req.params;
+    const userId  = req.userId
     if (!mongoose.isValidObjectId(userId)) {
       const error = new Error("User id is invalid");
       // @ts-ignore
       error.status = 400;
       throw error;
     }
-    const contents = await ContentModel.find({ userId });
+    const contents = (await ContentModel.find({ userId })).reverse();
     if (!contents || contents.length === 0) {
       const error = new Error("Content not found");
       // @ts-ignore

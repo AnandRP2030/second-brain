@@ -2,7 +2,7 @@ import {
   createContent,
   deleteContentById,
   getAllContent,
-  getContentsByUserId,
+  getContentsByUser,
 } from "../controllers/contentController";
 import express from "express";
 import { ContentValidationSchema } from "../validation/zodValidation";
@@ -14,6 +14,6 @@ contentRoutes.use(verifyUser);
 contentRoutes.post("/", validate(ContentValidationSchema), createContent);
 
 contentRoutes.get("/", getAllContent);
-contentRoutes.get(`/user/:userId`, getContentsByUserId);
+contentRoutes.get(`/user`, getContentsByUser);
 contentRoutes.delete(`/:contentId`, deleteContentById);
 export default contentRoutes;

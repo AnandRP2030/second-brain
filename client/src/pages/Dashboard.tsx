@@ -5,18 +5,55 @@ import { ShareIcon } from "../components/icon/ShareIcon";
 import { Sidebar } from "../components/ui/Sidebar";
 import { CreateContentModal } from "../components/ui/CreateContentModal";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getUserContents } from "../apis/contentService";
+import { ContentTypeFromServer } from "../types/content";
 
 export const Dashboard = () => {
+  return (
+    <>
+      <div className="flex ">
+        <div className="flex-shrink-0">
+          <Sidebar />
+        </div>
+        <MainSection />
+      </div>
+    </>
+  );
+};
+
+export const MainSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+
   const openModal = () => {
     setIsModalOpen(true);
   };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const btnCllicked = () => {
     alert("clicked");
   };
+
+  const {
+    data: contents,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["contents"],
+    queryFn: getUserContents,
+  });
+  console.log("conten", contents);
+
+  if (isLoading) {
+    return (
+      <div className="ms-56 px-5 flex flex-grow flex-col overflow-auto bg-purple-100 ">
+        <h1 className="text-center"> Loading..</h1>
+      </div>
+    );
+  }
+
   return (
     <>
       <CreateContentModal
@@ -24,56 +61,35 @@ export const Dashboard = () => {
         onClose={closeModal}
         modalTitle="Save Content"
       />
-      <div className="flex ">
-        <div className="flex-shrink-0 ">
-          <Sidebar />
+      <div className="ms-56 px-5 flex flex-grow flex-col overflow-auto bg-purple-100 ">
+        {/* topbar  */}
+        <div className="flex justify-end fixed right-0 me-10 flex-grow">
+          <Button
+            variant="secondary"
+            size="md"
+            onClick={btnCllicked}
+            text="Share Brain"
+            startIcon={<ShareIcon />}
+          />
+          <Button
+            variant="primary"
+            size="md"
+            onClick={openModal}
+            text="Add Content"
+            startIcon={<PlusIcon size="16" />}
+          />
         </div>
-        <div className="ms-56 px-5 flex flex-grow flex-col overflow-auto bg-purple-100 ">
-          {/* topbar  */}
-          <div className="flex justify-end fixed right-0 me-10 flex-grow">
-            <Button
-              variant="secondary"
-              size="md"
-              onClick={btnCllicked}
-              text="Share Brain"
-              startIcon={<ShareIcon />}
-            />
-            <Button
-              variant="primary"
-              size="md"
-              onClick={openModal}
-              text="Add Content"
-              startIcon={<PlusIcon size="16" />}
-            />
-          </div>
-          {/* card component  */}
-          <div className="flex flex-wrap gap-5  flex-grow overflow-y-scroll mt-20">
-            <Card
-              title="Project Ideas"
-              link="https://www.instagram.com/p/DErvS27Mwvl/?utm_source=ig_web_copy_link"
-              type="instagram"
-            />
-            <Card
-              title="Project Ideas"
-              link="https://www.youtube.com/embed/BAbEBe4V64k"
-              type="youtube"
-            />
-            <Card
-              title="Project Ideas"
-              link="https://www.youtube.com/embed/BAbEBe4V64k"
-              type="youtube"
-            />
-            <Card
-              title="First tweet"
-              link="https://x.com/elonmusk/status/1877053020405412042"
-              type="twitter"
-            />
-            <Card
-              title="First tweet"
-              link="https://x.com/elonmusk/status/1877053020405412042"
-              type="twitter"
-            />
-          </div>
+        {/* card component  */}
+        <div className="flex flex-wrap gap-5  flex-grow overflow-y-scroll mt-20">
+          {contents ? (
+            contents.map((content: ContentTypeFromServer) => {
+              return <Card content={content} />;
+            })
+          ) : (
+            <div>
+              <h2> No Contents</h2>
+            </div>
+          )}
         </div>
       </div>
     </>

@@ -7,3 +7,14 @@ export interface ContentData {
   title: string;
   link: string;
 }
+
+export interface ContentTypeFromServer {
+  _id: string;
+  link: string;
+  type: "youtube" | "twitter" | "github" | "links" | "instagram" | "other";
+  usrId: string;
+  title: string;
+  tags: string[];
+  createdAt: string;
+  updatedAt: string;
+}

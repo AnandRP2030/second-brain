@@ -23,4 +23,5 @@ const objectIdSchema = z.string().refine(val => mongoose.Types.ObjectId.isValid(
 export const ContentValidationSchema = z.object ({
   type: z.string(),
   link: z.string(),
+  title: z.string()
 })

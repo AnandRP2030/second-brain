@@ -1,20 +1,16 @@
 import { NoteIcon } from "../icon/NoteIcon";
 import { DeleteIcon } from "../icon/DeleteIcon";
 import { ShareIcon } from "../icon/ShareIcon";
+import { ContentTypeFromServer } from "../../types/content";
 
 interface CardProps {
-  title: string;
-  link: string;
-  type: "youtube" | "twitter" | "github" | "links" | "instagram";
+  content: ContentTypeFromServer;
 }
 export const Card = (props: CardProps) => {
-  const { title, link, type } = props;
+  const { title, link, type, createdAt } = props.content;
 
-  const getUserName = (link: string) => {
-    return link.split("/").pop();
-  };
   return (
-    <div className="bg-white max-h-100 min-h-72 min-w-60 shadow-md rounded px-3 py-3">
+    <div className="bg-white max-h-100 min-h-72 max-h-96 overflow-auto min-w-60 shadow-md rounded px-3 py-3">
       {/* header section  */}
       <div className="flex justify-between">
         <div className="flex space-x-2">
@@ -57,7 +53,9 @@ export const Card = (props: CardProps) => {
       </div>
 
       <div className="">
-        <span className="text-xs text-gray-500">Added on 25/04/2000</span>{" "}
+        <span className="text-xs text-gray-500">
+          Added on <span>{createdAt?.substring(0, 10)}</span>
+        </span>{" "}
       </div>
     </div>
   );

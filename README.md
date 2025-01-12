@@ -21,7 +21,7 @@ The Second Brain Project is designed to be your digital memory, helping you save
   - **Express:** For building the server-side API.
   - **TypeScript:** For a type-safe backend.
   - **Zod:** For schema validation.
-  - **GPT:** To assist with advanced query capabilities.
+  
   - **MongoDB:** For storing your saved content.
   - **jsonwebtoken (JWT):** For securing user authentication.
 
