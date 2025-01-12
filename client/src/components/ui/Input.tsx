@@ -16,6 +16,8 @@ type ValidationTypes = {
     value?: any;
     message?: string;
   };
+  validate?: (value: string) => boolean | string
+  
 };
 interface InputProps {
   placeholder?: string;
@@ -31,7 +33,6 @@ export const Input = (props: InputProps) => {
   const {
     placeholder = "",
     type = "text",
-    onChange,
     size,
     register = () => {},
     name,
@@ -60,7 +61,6 @@ export const Input = (props: InputProps) => {
         {...register(name, validation)}
         type={inputType}
         placeholder={placeholder}
-        onChange={onChange}
         className={`${inputSize} rounded-md px-4 py-2 border`}
       />
       {type === "password" && (

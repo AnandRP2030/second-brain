@@ -1,3 +1,4 @@
+import { UserTokenId } from "../../config/localStorageId";
 import {
   BrainIcon,
   TweetIcon,
@@ -12,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 export const Sidebar = () => {
   const navigate = useNavigate();
   const logout = () => {
+    localStorage.removeItem(UserTokenId)
     navigate("/signin");
   };
   return (

@@ -5,10 +5,14 @@ import { ShareIcon } from "../icon/ShareIcon";
 interface CardProps {
   title: string;
   link: string;
-  type: "youtube" | "twitter" | "bullet-points" | "links" | "instagram";
+  type: "youtube" | "twitter" | "github" | "links" | "instagram";
 }
 export const Card = (props: CardProps) => {
   const { title, link, type } = props;
+
+  const getUserName = (link: string) => {
+    return link.split("/").pop();
+  };
   return (
     <div className="bg-white max-h-100 min-h-72 min-w-60 shadow-md rounded px-3 py-3">
       {/* header section  */}
@@ -23,18 +27,7 @@ export const Card = (props: CardProps) => {
         </div>
       </div>
       {/* content  */}
-      {type === "bullet-points" && (
-        <div>
-          <h1 className="text-xl font-semibold text-gray-800 mb-2 space-y-1">
-            Future Projects
-          </h1>
-          <ul className="marker:text-sky-400 list-disc pl-4">
-            <li>Build Personal Knowlege base</li>
-            <li>Create a habit tracker </li>
-            <li>Design a minimalist todo app</li>
-          </ul>
-        </div>
-      )}
+
       <div className="pt-4">
         {type === "youtube" && (
           <iframe
@@ -53,8 +46,6 @@ export const Card = (props: CardProps) => {
             <a href={link.replace("x.com", "twitter.com")}></a>
           </blockquote>
         )}
-
-  
       </div>
       {/* tag section  */}
 

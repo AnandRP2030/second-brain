@@ -127,7 +127,13 @@ export const Signup = () => {
             </span>
           </p>
           <div className="flex justify-center">
-            <Button loading={false} size="md" variant="dark" text="Sign Up" />
+            <Button
+              type="submit"
+              loading={false}
+              size="md"
+              variant="dark"
+              text="Sign Up"
+            />
           </div>
         </form>
       </div>

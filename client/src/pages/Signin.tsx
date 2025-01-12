@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { userSignin } from "../apis/authService";
 import { toast } from "react-hot-toast";
+import { UserTokenId } from "../config/localStorageId";
 type InputTypes = {
   email: string;
   password: string;
@@ -23,8 +24,7 @@ export const Signin = () => {
     mutationFn: userSignin,
     onSuccess: (data) => {
       toast.success("Sign in successful.");
-      console.log(data.token);
-      localStorage.setItem("second-brain-token", data.token)
+      localStorage.setItem(UserTokenId, data.token)
       navigate("/");
     },
     onError: (error: any) => {
@@ -106,6 +106,7 @@ export const Signin = () => {
 
           <div className="flex justify-center">
             <Button
+            type="submit"
               loading={isLoading}
               size="md"
               variant="dark"

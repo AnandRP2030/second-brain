@@ -10,12 +10,13 @@ interface ButtonProps {
   endIcon?: ReactElement;
   onClick?: () => void;
   loading?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 
 const variantStyles = {
   primary: "bg-royalBlue-400 text-white",
   secondary: "bg-royalBlue-300 text-white-400",
-  dark: "bg-black text-white"
+  dark: "bg-black text-white",
 };
 
 const sizeStyles = {
@@ -28,13 +29,23 @@ const defaultStyles =
   "rounded-lg p-2 m-1 flex items-center space-x-2 justify-center hover:opacity-80  transition duration-300 ease-in-out";
 
 export const Button = (props: ButtonProps) => {
-  const { variant, size, text, startIcon, endIcon, onClick, loading } = props;
+  const {
+    variant,
+    size,
+    text,
+    startIcon,
+    endIcon,
+    onClick,
+    loading,
+    type = "button",
+  } = props;
   const loadingStyles = loading ? `cursor-not-allowed` : "";
   return (
     <button
       disabled={loading}
       className={`${defaultStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${loadingStyles}`}
       onClick={onClick}
+      type={type}
     >
       {startIcon ? <div className="mr-2"> {startIcon} </div> : null}
       {text} {endIcon ? <div className="ml-2"> {endIcon} </div> : null}

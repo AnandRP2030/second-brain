@@ -7,7 +7,6 @@ import { CreateContentModal } from "../components/ui/CreateContentModal";
 import { useState } from "react";
 
 export const Dashboard = () => {
-    
   const [isModalOpen, setIsModalOpen] = useState(false);
   const closeModal = () => {
     setIsModalOpen(false);
@@ -51,6 +50,11 @@ export const Dashboard = () => {
           <div className="flex flex-wrap gap-5  flex-grow overflow-y-scroll mt-20">
             <Card
               title="Project Ideas"
+              link="https://www.instagram.com/p/DErvS27Mwvl/?utm_source=ig_web_copy_link"
+              type="instagram"
+            />
+            <Card
+              title="Project Ideas"
               link="https://www.youtube.com/embed/BAbEBe4V64k"
               type="youtube"
             />
@@ -63,41 +67,6 @@ export const Dashboard = () => {
               title="First tweet"
               link="https://x.com/elonmusk/status/1877053020405412042"
               type="twitter"
-            />
-            <Card
-              title="Project Ideas"
-              link="https://www.youtube.com/embed/BAbEBe4V64k"
-              type="youtube"
-            />
-            <Card
-              title="First tweet"
-              link="https://x.com/elonmusk/status/1877053020405412042"
-              type="twitter"
-            />
-            <Card
-              title="Project Ideas"
-              link="https://www.youtube.com/embed/BAbEBe4V64k"
-              type="youtube"
-            />
-            <Card
-              title="First tweet"
-              link="https://x.com/elonmusk/status/1877053020405412042"
-              type="twitter"
-            />
-            <Card
-              title="Project Ideas"
-              link="https://www.youtube.com/embed/BAbEBe4V64k"
-              type="youtube"
-            />
-            <Card
-              title="First tweet"
-              link="https://x.com/elonmusk/status/1877053020405412042"
-              type="twitter"
-            />
-            <Card
-              title="Project Ideas"
-              link="https://www.youtube.com/embed/BAbEBe4V64k"
-              type="youtube"
             />
             <Card
               title="First tweet"
@@ -109,6 +78,4 @@ export const Dashboard = () => {
       </div>
     </>
   );
-}
-
-
+};
