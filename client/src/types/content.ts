@@ -12,7 +12,9 @@ export interface ContentTypeFromServer {
   _id: string;
   link: string;
   type: "youtube" | "twitter" | "github" | "links" | "instagram" | "other";
-  usrId: string;
+  userId: {
+    username: string;
+  };
   title: string;
   tags: string[];
   createdAt: string;

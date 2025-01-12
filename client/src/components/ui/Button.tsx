@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 
-type Variants = "primary" | "secondary" | "dark";
+type Variants = "primary" | "secondary" | "dark" | "danger";
 
 interface ButtonProps {
   variant: Variants;
@@ -16,6 +16,7 @@ interface ButtonProps {
 const variantStyles = {
   primary: "bg-royalBlue-400 text-white",
   secondary: "bg-royalBlue-300 text-white-400",
+  danger: "bg-red-800 text-white",
   dark: "bg-black text-white",
 };
 

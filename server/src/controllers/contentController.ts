@@ -16,7 +16,7 @@ export const createContent = async (
       link,
       userId,
       tags,
-      title
+      title,
     });
 
     await newContent.save();
@@ -48,14 +48,16 @@ export const getContentsByUser = async (
   next: NextFunction
 ) => {
   try {
-    const userId  = req.userId
+    const userId = req.userId;
     if (!mongoose.isValidObjectId(userId)) {
       const error = new Error("User id is invalid");
       // @ts-ignore
       error.status = 400;
       throw error;
     }
-    const contents = (await ContentModel.find({ userId })).reverse();
+    const contents = (
+      await ContentModel.find({ userId }).populate("userId", "username")
+    ).reverse();
     if (!contents || contents.length === 0) {
       const error = new Error("Content not found");
       // @ts-ignore

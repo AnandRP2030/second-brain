@@ -83,7 +83,7 @@ export const MainSection = () => {
         <div className="flex flex-wrap gap-5  flex-grow overflow-y-scroll mt-20">
           {contents ? (
             contents.map((content: ContentTypeFromServer) => {
-              return <Card content={content} />;
+              return <Card key={content._id} content={content} />;
             })
           ) : (
             <div>

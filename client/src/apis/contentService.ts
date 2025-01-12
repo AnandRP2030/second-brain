@@ -20,3 +20,12 @@ export const getUserContents = async () => {
     });
     return res.data.data || [];
 }
+
+export const deleteUserContent = async (id) => {
+    const res = await axiosInstance.delete(`/content/${id}`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem(UserTokenId)}`
+        }
+    });
+    return res.data
+}

@@ -5,14 +5,14 @@ import { Input } from "./Input";
 import { useForm } from "react-hook-form";
 import { ContentData, ContentType } from "../../types/content";
 import { CreateContentModalProps } from "../../types/modal";
-import { useMutation, QueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postContent } from "../../apis/contentService";
 import toast from "react-hot-toast";
 
 export const CreateContentModal = (props: CreateContentModalProps) => {
   const { isOpen, onClose, modalTitle } = props;
   const [type, setType] = useState(ContentType.Youtube);
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
   const {
     register,
     handleSubmit,
@@ -48,6 +48,9 @@ export const CreateContentModal = (props: CreateContentModalProps) => {
 
   const createNewContent = useMutation({
     mutationFn: postContent,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["contents"] });
+    },
   });
   const addContent = async (data: ContentData) => {
     const { link, title } = data;
@@ -63,9 +66,6 @@ export const CreateContentModal = (props: CreateContentModalProps) => {
         console.error("Content adding failed: ", error?.response?.data);
       },
       onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: "contents",
-        });
         toast.success("Content added");
         reset();
         onClose();
