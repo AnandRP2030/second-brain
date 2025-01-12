@@ -8,7 +8,7 @@ export const createContent = async (
   next: NextFunction
 ) => {
   try {
-    const { type, link } = req.body;
+    const { type, link, title } = req.body;
     const userId = req.userId;
     const tags: mongoose.Types.ObjectId[] = [];
     const newContent = new ContentModel({
@@ -16,6 +16,7 @@ export const createContent = async (
       link,
       userId,
       tags,
+      title
     });
 
     await newContent.save();
